@@ -19,7 +19,7 @@ export default defineConfig({
     hmr: {
       clientPort: 443,
       protocol: 'https',
-      host: 'verify-todo-app-tunnel-ielq6dyd.devinapps.com'
+      host: 'verify-todo-app-tunnel-7ijtwsqv.devinapps.com'
     }
   }
 });
