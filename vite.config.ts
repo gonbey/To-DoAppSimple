@@ -8,13 +8,18 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    host: true,
-    strictPort: true,
+    host: '0.0.0.0',
     port: 5173,
-    cors: true,
+    strictPort: true,
+    cors: {
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+      credentials: true
+    },
     hmr: {
       clientPort: 443,
-      protocol: 'https'
+      protocol: 'https',
+      host: 'verify-todo-app-tunnel-ielq6dyd.devinapps.com'
     }
   }
 });
