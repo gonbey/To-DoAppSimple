@@ -9,7 +9,10 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: ['https://verify-todo-app-tunnel-m9ob538h.devinapps.com'],
+  origin: [
+    'https://verify-todo-app-tunnel-ielq6dyd.devinapps.com',
+    'https://verify-todo-app-tunnel-m9ob538h.devinapps.com'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
