@@ -8,7 +8,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['https://verify-todo-app-tunnel-m9ob538h.devinapps.com'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 const db = createClient({
@@ -57,12 +62,12 @@ app.post('/api/register', async (req, res) => {
   try {
     const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     await db.execute({
       sql: 'INSERT INTO users (username, password) VALUES (?, ?)',
       args: [username, hashedPassword]
     });
-    
+
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     if (error.message.includes('UNIQUE constraint failed')) {
@@ -77,24 +82,24 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    
+
     const result = await db.execute({
       sql: 'SELECT * FROM users WHERE username = ?',
       args: [username]
     });
 
     const user = result.rows[0];
-    
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
+
     const token = jwt.sign(
       { id: user.id, username: user.username },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
-    
+
     res.json({ token, username: user.username });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in' });
@@ -134,18 +139,18 @@ app.patch('/api/todos/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const result = await db.execute({
       sql: `
-        UPDATE todos 
-        SET completed = NOT completed 
+        UPDATE todos
+        SET completed = NOT completed
         WHERE id = ? AND user_id = ?
         RETURNING *
       `,
       args: [id, req.user.id]
     });
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Todo not found' });
     }
-    
+
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ message: 'Error updating todo' });
@@ -160,11 +165,11 @@ app.delete('/api/todos/:id', authenticateToken, async (req, res) => {
       sql: 'DELETE FROM todos WHERE id = ? AND user_id = ?',
       args: [id, req.user.id]
     });
-    
+
     if (result.rowsAffected === 0) {
       return res.status(404).json({ message: 'Todo not found' });
     }
-    
+
     res.json({ message: 'Todo deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting todo' });
