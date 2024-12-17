@@ -1,9 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
+interface AppLayoutProps {
+  children: React.ReactNode;
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+}
+
+export function AppLayout({ children, isAuthenticated, isAdmin }: AppLayoutProps) {
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem('token');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -22,6 +27,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             >
               Todo一覧
             </button>
+            {isAdmin && (
+              <button
+                onClick={() => navigate('/admin')}
+                className="px-4 py-2 rounded bg-green-500 text-white"
+              >
+                管理画面
+              </button>
+            )}
             <button
               onClick={handleLogout}
               className="px-4 py-2 rounded bg-red-500 text-white"

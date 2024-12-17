@@ -4,7 +4,11 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Alert, AlertDescription } from "../components/ui/alert"
 
-export function LoginForm() {
+interface LoginFormProps {
+  onLoginSuccess: () => void;
+}
+
+export function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const navigate = useNavigate()
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
@@ -46,6 +50,7 @@ export function LoginForm() {
       console.log('Hash location before navigation:', window.location.hash);
 
       setSuccess('ログインに成功しました！')
+      onLoginSuccess();
       console.log('Attempting navigation to /todos');
       navigate('/todos', { replace: true })
       console.log('Current location after navigation:', window.location.href);

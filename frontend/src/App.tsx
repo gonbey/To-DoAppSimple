@@ -1,4 +1,5 @@
-import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { HashRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { RegisterForm } from './components/RegisterForm';
 import { LoginForm } from './components/LoginForm';
 import { ResetPasswordForm } from './components/ResetPasswordForm';
@@ -11,49 +12,62 @@ import { Toaster } from './components/ui/toaster';
 import './App.css';
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem('token');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/verify`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setIsAuthenticated(true);
+          setIsAdmin(data.is_admin || false);
+        } else {
+          localStorage.removeItem('token');
+          setIsAuthenticated(false);
+          setIsAdmin(false);
+        }
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
+    } else {
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <Router>
-      <AppLayout>
+      <AppLayout isAuthenticated={isAuthenticated} isAdmin={isAdmin}>
         <Routes>
-          <Route path="/reset-password" element={<ResetPasswordForm />} />
-          <Route path="/request-reset" element={<RequestPasswordForm />} />
           <Route
-            path="/admin"
+            path="/"
             element={
               isAuthenticated ? (
-                <AdminDashboard />
-              ) : (
-                <Navigate to="/login" replace={true} />
-              )
-            }
-          />
-          <Route
-            path="/todos"
-            element={
-              isAuthenticated ? (
-                <TodoList />
-              ) : (
-                <Navigate to="/login" replace={true} />
-              )
-            }
-          />
-          <Route
-            path="/todo/new"
-            element={
-              isAuthenticated ? (
-                <TodoForm />
-              ) : (
-                <Navigate to="/login" replace={true} />
-              )
-            }
-          />
-          <Route
-            path="/todo/:id"
-            element={
-              isAuthenticated ? (
-                <TodoForm />
+                <Navigate to="/todos" replace={true} />
               ) : (
                 <Navigate to="/login" replace={true} />
               )
@@ -80,24 +94,63 @@ function App() {
                       新規登録
                     </Link>
                     <Link
-                      to="/request-reset"
+                      to="/request-password-reset"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       パスワードを忘れた場合
                     </Link>
                   </nav>
-                  <LoginForm />
+                  <LoginForm onLoginSuccess={checkAuth} />
                 </>
               )
             }
           />
           <Route
-            path="/"
+            path="/register"
             element={
-              <Navigate to="/login" replace={true} />
+              isAuthenticated ? (
+                <Navigate to="/todos" replace={true} />
+              ) : (
+                <RegisterForm />
+              )
             }
           />
-          <Route path="/register" element={<RegisterForm />} />
+          <Route
+            path="/todos"
+            element={
+              isAuthenticated ? (
+                <TodoList />
+              ) : (
+                <Navigate to="/login" replace={true} />
+              )
+            }
+          />
+          <Route
+            path="/todo/new"
+            element={
+              isAuthenticated ? (
+                <TodoForm />
+              ) : (
+                <Navigate to="/login" replace={true} />
+              )
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              isAuthenticated && isAdmin ? (
+                <AdminDashboard />
+              ) : (
+                <Navigate to="/login" replace={true} />
+              )
+            }
+          />
+          <Route path="/request-password-reset" element={<RequestPasswordForm />} />
+          <Route path="/reset-password" element={<ResetPasswordForm />} />
+          <Route
+            path="*"
+            element={<Navigate to="/" replace={true} />}
+          />
         </Routes>
         <Toaster />
       </AppLayout>
