@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage } from "@/components/ui/breadcrumb";
 
 export default function CreateHabit() {
   const { groupId } = useParams();
@@ -24,47 +25,60 @@ export default function CreateHabit() {
           duration_minutes: parseInt(duration, 10)
         }),
       });
-      navigate(`/groups/${groupId}`);
+      navigate('/');
     } catch (error) {
       console.error('Error creating habit:', error);
     }
   };
 
   return (
-    <Card className="max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>新規習慣</CardTitle>
-        <CardDescription>新しい習慣を登録します。</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="habitName">習慣名</Label>
-            <Input
-              id="habitName"
-              value={habitName}
-              onChange={(e) => setHabitName(e.target.value)}
-              placeholder="瞑想"
-            />
+    <div className="space-y-6">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">ホーム</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbPage>新規習慣登録</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Card className="max-w-md mx-auto">
+        <CardHeader>
+          <CardTitle>新規習慣</CardTitle>
+          <CardDescription>新しい習慣を登録します。</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="habitName">習慣名</Label>
+              <Input
+                id="habitName"
+                value={habitName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHabitName(e.target.value)}
+                placeholder="瞑想"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="duration">所要時間（分）</Label>
+              <Input
+                id="duration"
+                type="number"
+                value={duration}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDuration(e.target.value)}
+                placeholder="10"
+              />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="duration">所要時間（分）</Label>
-            <Input
-              id="duration"
-              type="number"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              placeholder="10"
-            />
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button onClick={createHabit}>
-          <Plus className="h-4 w-4 mr-2" />
-          登録
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter>
+          <Button onClick={createHabit}>
+            <Plus className="h-4 w-4 mr-2" />
+            登録
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlayCircle, Plus, Trash } from "lucide-react";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import type { HabitGroup } from '../types';
 import { AddHabit } from './AddHabit';
 
@@ -66,6 +67,14 @@ export default function HabitGroups({ isCreating = false }: HabitGroupsProps) {
 
   return (
     <div className="space-y-6">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>{isCreating ? '新規グループ作成' : 'ホーム'}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       {isCreating && (
         <Card>
           <CardHeader>
@@ -79,7 +88,7 @@ export default function HabitGroups({ isCreating = false }: HabitGroupsProps) {
                 <Input
                   id="groupName"
                   value={newGroupName}
-                  onChange={(e) => setNewGroupName(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewGroupName(e.target.value)}
                   placeholder="朝のルーティン"
                 />
               </div>
