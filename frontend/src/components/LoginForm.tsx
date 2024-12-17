@@ -28,16 +28,22 @@ export function LoginForm() {
         body: JSON.stringify({ id, password }),
       })
 
+      console.log('Login response status:', response.status);
+      const data = await response.json();
+      console.log('Login response data:', data);
+
       if (!response.ok) {
-        const data = await response.json()
         throw new Error(data.detail || 'ログインに失敗しました。')
       }
 
-      const data = await response.json()
       localStorage.setItem('token', data.access_token)
+      console.log('Token stored:', localStorage.getItem('token'));
+
       setSuccess('ログインに成功しました！')
+      console.log('Navigating to /todos');
       navigate('/todos', { replace: true })
     } catch (err) {
+      console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'ログインに失敗しました。')
     }
   }
