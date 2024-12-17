@@ -53,7 +53,9 @@ async def get_connection() -> AsyncContextManager[aiosqlite.Connection]:
                 os.makedirs(db_dir, exist_ok=True)
         conn = await aiosqlite.connect(conn_str)
         await conn.execute("PRAGMA foreign_keys = ON")
+        conn.row_factory = aiosqlite.Row
         yield conn
+        await conn.commit()  # Automatically commit changes
     finally:
         if conn:
             await conn.close()
