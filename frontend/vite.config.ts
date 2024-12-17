@@ -9,5 +9,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    historyApiFallback: true,
+  } as any,
+  preview: {
+    historyApiFallback: true,
+  } as any,
+  base: '/',
 })
 
