@@ -20,6 +20,7 @@ export function LoginForm() {
     setResetMessage('')
 
     try {
+      console.log('Sending login request to:', `${import.meta.env.VITE_API_URL}/api/auth/login`);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -41,10 +42,14 @@ export function LoginForm() {
 
       localStorage.setItem('token', data.access_token)
       console.log('Token stored:', localStorage.getItem('token'));
+      console.log('Current location before navigation:', window.location.href);
+      console.log('Hash location before navigation:', window.location.hash);
 
       setSuccess('ログインに成功しました！')
-      console.log('Navigating to /todos');
-      navigate('/todos', { replace: true })
+      console.log('Attempting navigation to #/todos');
+      navigate('#/todos', { replace: true })
+      console.log('Current location after navigation:', window.location.href);
+      console.log('Hash location after navigation:', window.location.hash);
     } catch (err) {
       console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'ログインに失敗しました。')
