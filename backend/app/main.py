@@ -269,38 +269,37 @@ async def create_todo(todo: TodoCreate, current_user: str = Depends(get_current_
 @app.get("/api/todos", response_model=List[TodoResponse])
 async def get_todos(current_user: str = Depends(get_current_user)):
     try:
-        async with await get_connection() as conn:
-            async with conn.cursor() as cur:
-                await cur.execute(
-                    """
-                    SELECT t.id, t.user_id, t.title, t.status, t.deadline, t.content,
-                           t.created_at, t.updated_at, GROUP_CONCAT(tg.name) as tags
-                    FROM todos t
-                    LEFT JOIN todo_tags tt ON t.id = tt.todo_id
-                    LEFT JOIN tags tg ON tt.tag_id = tg.id
-                    WHERE t.user_id = ?
-                    GROUP BY t.id, t.user_id, t.title, t.status, t.deadline, t.content,
-                             t.created_at, t.updated_at
-                    ORDER BY t.created_at DESC
-                    """,
-                    (current_user,)
-                )
-                results = await cur.fetchall()
+        async with get_connection() as conn:
+            cursor = await conn.execute(
+                """
+                SELECT t.id, t.user_id, t.title, t.status, t.deadline, t.content,
+                       t.created_at, t.updated_at, GROUP_CONCAT(tg.name) as tags
+                FROM todos t
+                LEFT JOIN todo_tags tt ON t.id = tt.todo_id
+                LEFT JOIN tags tg ON tt.tag_id = tg.id
+                WHERE t.user_id = ?
+                GROUP BY t.id, t.user_id, t.title, t.status, t.deadline, t.content,
+                         t.created_at, t.updated_at
+                ORDER BY t.created_at DESC
+                """,
+                (current_user,)
+            )
+            results = await cursor.fetchall()
 
-                return [
-                    TodoResponse(
-                        id=row[0],
-                        user_id=row[1],
-                        title=row[2],
-                        status=row[3],
-                        deadline=row[4],
-                        content=row[5],
-                        created_at=row[6],
-                        updated_at=row[7],
-                        tags=row[8].split(',') if row[8] else []
-                    )
-                    for row in results
-                ]
+            return [
+                TodoResponse(
+                    id=row[0],
+                    user_id=row[1],
+                    title=row[2],
+                    status=row[3],
+                    deadline=row[4],
+                    content=row[5],
+                    created_at=row[6],
+                    updated_at=row[7],
+                    tags=row[8].split(',') if row[8] else []
+                )
+                for row in results
+            ]
     except Exception as e:
         logger.error(f"Error in get_todos: {str(e)}")
         raise HTTPException(
