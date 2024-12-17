@@ -1,0 +1,24 @@
+*   Trying 127.0.0.1:8000...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Connected to localhost (127.0.0.1) port 8000 (#0)
+> PUT /api/admin/users/test_user4 HTTP/1.1
+> Host: localhost:8000
+> User-Agent: curl/7.81.0
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJleHAiOjE3MzQyNzk2NzB9.z0RS5ljpfeQvwMfXHpBk9m3UJq9yfW9eqnQ4InhVjtE
+> Content-Length: 50
+> 
+} [50 bytes data]
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 500 Internal Server Error
+< date: Sun, 15 Dec 2024 15:51:11 GMT
+< server: uvicorn
+< content-length: 21
+< content-type: text/plain; charset=utf-8
+< 
+{ [21 bytes data]
+100    71  100    21  100    50     45    108 --:--:-- --:--:-- --:--:--   153100    71  100    21  100    50     45    107 --:--:-- --:--:-- --:--:--   153
+* Connection #0 to host localhost left intact
+Internal Server Error
