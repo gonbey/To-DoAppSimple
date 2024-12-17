@@ -20,27 +20,32 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       try {
+        console.log('Verifying token...');
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/verify`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
+        console.log('Token verification response:', response.status);
         if (response.ok) {
           const data = await response.json();
+          console.log('Token verification data:', data);
           setIsAuthenticated(true);
           setIsAdmin(data.is_admin || false);
         } else {
+          console.log('Token verification failed');
           localStorage.removeItem('token');
           setIsAuthenticated(false);
           setIsAdmin(false);
         }
       } catch (error) {
-        console.error('Token verification failed:', error);
+        console.error('Token verification error:', error);
         localStorage.removeItem('token');
         setIsAuthenticated(false);
         setIsAdmin(false);
       }
     } else {
+      console.log('No token found');
       setIsAuthenticated(false);
       setIsAdmin(false);
     }
