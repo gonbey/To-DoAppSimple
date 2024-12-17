@@ -178,6 +178,10 @@ async def login(user_credentials: UserLogin):
             detail={"message": "ログインに失敗しました。", "error": f"401: Incorrect username or password"}
         )
 
+@app.get("/api/auth/verify")
+async def verify_token(current_user: str = Depends(get_current_user)):
+    return {"status": "ok", "user": current_user}
+
 @app.get("/healthz")
 async def healthz():
     return {"status": "ok"}
