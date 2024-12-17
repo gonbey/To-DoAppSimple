@@ -44,6 +44,7 @@ export function TodoList() {
       });
 
       if (response.status === 401) {
+        localStorage.removeItem('token');
         navigate('/login');
         return;
       }
