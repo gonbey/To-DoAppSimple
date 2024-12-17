@@ -79,7 +79,7 @@ function App() {
             }
           />
           <Route
-            path="/login"
+            path="login"
             element={
               isAuthenticated ? (
                 <Navigate to="todos" replace={true} />
@@ -87,19 +87,19 @@ function App() {
                 <>
                   <nav className="flex justify-center space-x-4 mb-8">
                     <Link
-                      to="/login"
+                      to="login"
                       className="px-4 py-2 rounded bg-blue-500 text-white"
                     >
                       ログイン
                     </Link>
                     <Link
-                      to="/register"
+                      to="register"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       新規登録
                     </Link>
                     <Link
-                      to="/request-password-reset"
+                      to="request-password-reset"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       パスワードを忘れた場合
@@ -111,7 +111,7 @@ function App() {
             }
           />
           <Route
-            path="/register"
+            path="register"
             element={
               isAuthenticated ? (
                 <Navigate to="todos" replace={true} />
@@ -121,7 +121,7 @@ function App() {
             }
           />
           <Route
-            path="/todos"
+            path="todos"
             element={
               isAuthenticated ? (
                 <TodoList />
@@ -131,7 +131,7 @@ function App() {
             }
           />
           <Route
-            path="/todo/new"
+            path="todo/new"
             element={
               isAuthenticated ? (
                 <TodoForm />
@@ -141,7 +141,7 @@ function App() {
             }
           />
           <Route
-            path="/admin"
+            path="admin"
             element={
               isAuthenticated && isAdmin ? (
                 <AdminDashboard />
@@ -150,8 +150,8 @@ function App() {
               )
             }
           />
-          <Route path="/request-password-reset" element={<RequestPasswordForm />} />
-          <Route path="/reset-password" element={<ResetPasswordForm />} />
+          <Route path="request-password-reset" element={<RequestPasswordForm />} />
+          <Route path="reset-password" element={<ResetPasswordForm />} />
           <Route
             path="*"
             element={<Navigate to="" replace={true} />}
