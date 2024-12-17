@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Alert, AlertDescription } from "./ui/alert";
 
 export function RequestPasswordForm() {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -29,7 +31,7 @@ export function RequestPasswordForm() {
       }
 
       setSuccess(data.message);
-      window.location.href = data.reset_url;
+      navigate('#/reset-password');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'パスワードリセットの要求に失敗しました。');
     }

@@ -47,7 +47,7 @@ export function LoginForm() {
 
       setSuccess('ログインに成功しました！')
       console.log('Attempting navigation to #/todos');
-      navigate('#/todos', { replace: true })
+      navigate('#/todos')
       console.log('Current location after navigation:', window.location.href);
       console.log('Hash location after navigation:', window.location.hash);
     } catch (err) {

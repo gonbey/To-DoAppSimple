@@ -34,7 +34,7 @@ export function ResetPasswordForm() {
 
       setSuccess(true);
       setTimeout(() => {
-        navigate('/login');
+        navigate('#/login');
       }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'パスワードのリセットに失敗しました。');
