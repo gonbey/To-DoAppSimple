@@ -36,7 +36,7 @@ export function LoginForm() {
       const data = await response.json()
       localStorage.setItem('token', data.access_token)
       setSuccess('ログインに成功しました！')
-      navigate('#/todos', { replace: true })
+      navigate('/todos', { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'ログインに失敗しました。')
     }
