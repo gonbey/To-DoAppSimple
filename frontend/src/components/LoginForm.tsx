@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Alert, AlertDescription } from "../components/ui/alert"
 
 export function LoginForm() {
+  const navigate = useNavigate()
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -34,7 +36,7 @@ export function LoginForm() {
       const data = await response.json()
       localStorage.setItem('token', data.access_token)
       setSuccess('ログインに成功しました！')
-      window.location.href = '/todos'
+      navigate('/todos')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'ログインに失敗しました。')
     }

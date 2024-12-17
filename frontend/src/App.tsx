@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import { RegisterForm } from './components/RegisterForm';
 import { LoginForm } from './components/LoginForm';
 import { ResetPasswordForm } from './components/ResetPasswordForm';
@@ -10,6 +10,7 @@ import { Toaster } from './components/ui/toaster';
 import './App.css';
 
 function App() {
+  const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem('token');
 
   return (
@@ -34,7 +35,7 @@ function App() {
               <button
                 onClick={() => {
                   localStorage.removeItem('token');
-                  window.location.href = '/login';
+                  navigate('/login');
                 }}
                 className="px-4 py-2 rounded bg-red-500 text-white"
               >
