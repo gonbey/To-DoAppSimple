@@ -17,70 +17,70 @@ function App() {
     <Router>
       <AppLayout>
         <Routes>
-          <Route path="#/reset-password" element={<ResetPasswordForm />} />
-          <Route path="#/request-reset" element={<RequestPasswordForm />} />
+          <Route path="/reset-password" element={<ResetPasswordForm />} />
+          <Route path="/request-reset" element={<RequestPasswordForm />} />
           <Route
-            path="#/admin"
+            path="/admin"
             element={
               isAuthenticated ? (
                 <AdminDashboard />
               ) : (
-                <Navigate to="#/login" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
           <Route
-            path="#/todos"
+            path="/todos"
             element={
               isAuthenticated ? (
                 <TodoList />
               ) : (
-                <Navigate to="#/login" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
           <Route
-            path="#/todo/new"
+            path="/todo/new"
             element={
               isAuthenticated ? (
                 <TodoForm />
               ) : (
-                <Navigate to="#/login" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
           <Route
-            path="#/todo/:id"
+            path="/todo/:id"
             element={
               isAuthenticated ? (
                 <TodoForm />
               ) : (
-                <Navigate to="#/login" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
           <Route
-            path="#/login"
+            path="/login"
             element={
               isAuthenticated ? (
-                <Navigate to="#/todos" replace />
+                <Navigate to="/todos" replace />
               ) : (
                 <>
                   <nav className="flex justify-center space-x-4 mb-8">
                     <Link
-                      to="#/login"
+                      to="/login"
                       className="px-4 py-2 rounded bg-blue-500 text-white"
                     >
                       ログイン
                     </Link>
                     <Link
-                      to="#/register"
+                      to="/register"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       新規登録
                     </Link>
                     <Link
-                      to="#/request-reset"
+                      to="/request-reset"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       パスワードを忘れた場合
@@ -94,10 +94,10 @@ function App() {
           <Route
             path="/"
             element={
-              <Navigate to="#/login" replace />
+              <Navigate to="/login" replace />
             }
           />
-          <Route path="#/register" element={<RegisterForm />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
         <Toaster />
       </AppLayout>
