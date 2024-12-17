@@ -25,7 +25,7 @@ function App() {
               isAuthenticated ? (
                 <AdminDashboard />
               ) : (
-                <Navigate to="/login" replace />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
@@ -35,7 +35,7 @@ function App() {
               isAuthenticated ? (
                 <TodoList />
               ) : (
-                <Navigate to="/login" replace />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
@@ -45,7 +45,7 @@ function App() {
               isAuthenticated ? (
                 <TodoForm />
               ) : (
-                <Navigate to="/login" replace />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
@@ -55,7 +55,7 @@ function App() {
               isAuthenticated ? (
                 <TodoForm />
               ) : (
-                <Navigate to="/login" replace />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
@@ -63,7 +63,7 @@ function App() {
             path="/login"
             element={
               isAuthenticated ? (
-                <Navigate to="/todos" replace />
+                <Navigate to="/todos" replace={true} />
               ) : (
                 <>
                   <nav className="flex justify-center space-x-4 mb-8">
@@ -94,7 +94,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Navigate to="/login" replace />
+              <Navigate to="/login" replace={true} />
             }
           />
           <Route path="/register" element={<RegisterForm />} />
