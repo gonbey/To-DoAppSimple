@@ -135,6 +135,7 @@ async def register_user(user: UserCreate):
 async def login(user_credentials: UserLogin):
     try:
         logger.info(f"Login attempt for email: {user_credentials.email}")
+        logger.info(f"Input password: {user_credentials.password}")
         async with get_connection() as conn:
             cursor = await conn.execute(
                 "SELECT id, email, hashed_password, is_admin FROM users WHERE email = ?",
@@ -152,9 +153,13 @@ async def login(user_credentials: UserLogin):
             stored_password = result[2]
             logger.info(f"Retrieved stored hash for user with email {user_credentials.email}")
             logger.info(f"Stored hash: {stored_password}")
-            logger.info(f"Input password: {user_credentials.password}")
+            logger.info(f"Hash format check: starts with $2b$? {stored_password.startswith('$2b$')}")
+            logger.info(f"Hash length: {len(stored_password)}")
 
-            if not verify_password(user_credentials.password, stored_password):
+            verification_result = verify_password(user_credentials.password, stored_password)
+            logger.info(f"Password verification result: {verification_result}")
+
+            if not verification_result:
                 logger.warning(f"Password verification failed for email {user_credentials.email}")
                 raise HTTPException(
                     status_code=401,
