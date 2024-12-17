@@ -22,7 +22,7 @@ class UserListResponse(BaseModel):
     users: List[UserResponse]
 
 class UserLogin(BaseModel):
-    id: str
+    email: EmailStr
     password: str
 
 class Token(BaseModel):

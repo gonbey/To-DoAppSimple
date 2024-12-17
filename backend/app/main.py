@@ -134,34 +134,34 @@ async def register_user(user: UserCreate):
 @app.post("/api/auth/login", response_model=Token)
 async def login(user_credentials: UserLogin):
     try:
-        logger.info(f"Login attempt for user: {user_credentials.id}")
+        logger.info(f"Login attempt for email: {user_credentials.email}")
         async with get_connection() as conn:
             cursor = await conn.execute(
-                "SELECT id, email, hashed_password, is_admin FROM users WHERE id = ?",
-                (user_credentials.id,)
+                "SELECT id, email, hashed_password, is_admin FROM users WHERE email = ?",
+                (user_credentials.email,)
             )
             result = await cursor.fetchone()
 
             if not result:
-                logger.warning(f"User {user_credentials.id} not found")
+                logger.warning(f"User with email {user_credentials.email} not found")
                 raise HTTPException(
                     status_code=401,
-                    detail="Incorrect username or password"
+                    detail="Incorrect email or password"
                 )
 
             stored_password = result[2]
-            logger.info(f"Retrieved stored hash for user {user_credentials.id}")
+            logger.info(f"Retrieved stored hash for user with email {user_credentials.email}")
             logger.info(f"Stored hash: {stored_password}")
             logger.info(f"Input password: {user_credentials.password}")
 
             if not verify_password(user_credentials.password, stored_password):
-                logger.warning(f"Password verification failed for user {user_credentials.id}")
+                logger.warning(f"Password verification failed for email {user_credentials.email}")
                 raise HTTPException(
                     status_code=401,
-                    detail="Incorrect username or password"
+                    detail="Incorrect email or password"
                 )
 
-            logger.info(f"Password verified successfully for {user_credentials.id}")
+            logger.info(f"Password verified successfully for {user_credentials.email}")
             access_token = create_access_token(
                 data={"sub": result[0], "email": result[1], "is_admin": bool(result[3])},
                 expires_delta=timedelta(minutes=30)
@@ -175,7 +175,7 @@ async def login(user_credentials: UserLogin):
         logger.exception("Full traceback:")
         raise HTTPException(
             status_code=500,
-            detail={"message": "ログインに失敗しました。", "error": f"401: Incorrect username or password"}
+            detail={"message": "ログインに失敗しました。", "error": "予期せぬエラーが発生しました。"}
         )
 
 @app.get("/api/auth/verify")
