@@ -36,7 +36,7 @@ export function LoginForm() {
       const data = await response.json()
       localStorage.setItem('token', data.access_token)
       setSuccess('ログインに成功しました！')
-      navigate('/todos')
+      navigate('/#/todos', { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'ログインに失敗しました。')
     }
@@ -70,7 +70,6 @@ export function LoginForm() {
 
       const data = await response.json()
       if (data.reset_url) {
-        // Development mode: Show reset URL for testing
         setResetMessage(`${data.message}\n開発モード: ${data.reset_url}`);
       } else {
         setResetMessage(data.message);
