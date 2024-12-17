@@ -45,7 +45,7 @@ export function TodoList() {
 
       if (response.status === 401) {
         localStorage.removeItem('token');
-        navigate('/login');
+        navigate('/login', { replace: true });
         return;
       }
 
@@ -122,7 +122,7 @@ export function TodoList() {
     <div className="container mx-auto py-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Todo一覧</h2>
-        <Button onClick={() => navigate('/todo/new')}>
+        <Button onClick={() => navigate('/todo/new', { replace: true })}>
           新規作成
         </Button>
       </div>
@@ -172,7 +172,7 @@ export function TodoList() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => navigate(`/todo/${todo.id}`)}
+                    onClick={() => navigate(`/todo/${todo.id}`, { replace: true })}
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
