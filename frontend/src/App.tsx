@@ -1,4 +1,3 @@
-import React from 'react';
 import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { RegisterForm } from './components/RegisterForm';
 import { LoginForm } from './components/LoginForm';
