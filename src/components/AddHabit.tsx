@@ -21,7 +21,7 @@ export const AddHabit: React.FC<AddHabitProps> = ({ groupId, onAdd }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/groups/${groupId}/habits`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/groups/${groupId}/habits/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
