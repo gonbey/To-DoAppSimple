@@ -57,7 +57,7 @@ export function RegisterForm() {
       setPassword('');
 
       setTimeout(() => {
-        navigate('/login', { replace: true });
+        navigate('#/login', { replace: true });
       }, 2000);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '登録に失敗しました';
