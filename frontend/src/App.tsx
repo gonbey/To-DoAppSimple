@@ -72,9 +72,9 @@ function App() {
             path="/"
             element={
               isAuthenticated ? (
-                <Navigate to="/todos" replace={true} />
+                <Navigate to="todos" replace={true} />
               ) : (
-                <Navigate to="/login" replace={true} />
+                <Navigate to="login" replace={true} />
               )
             }
           />
@@ -82,7 +82,7 @@ function App() {
             path="/login"
             element={
               isAuthenticated ? (
-                <Navigate to="/todos" replace={true} />
+                <Navigate to="todos" replace={true} />
               ) : (
                 <>
                   <nav className="flex justify-center space-x-4 mb-8">
@@ -114,7 +114,7 @@ function App() {
             path="/register"
             element={
               isAuthenticated ? (
-                <Navigate to="/todos" replace={true} />
+                <Navigate to="todos" replace={true} />
               ) : (
                 <RegisterForm />
               )
@@ -126,7 +126,7 @@ function App() {
               isAuthenticated ? (
                 <TodoList />
               ) : (
-                <Navigate to="/login" replace={true} />
+                <Navigate to="login" replace={true} />
               )
             }
           />
@@ -136,7 +136,7 @@ function App() {
               isAuthenticated ? (
                 <TodoForm />
               ) : (
-                <Navigate to="/login" replace={true} />
+                <Navigate to="login" replace={true} />
               )
             }
           />
@@ -146,7 +146,7 @@ function App() {
               isAuthenticated && isAdmin ? (
                 <AdminDashboard />
               ) : (
-                <Navigate to="/login" replace={true} />
+                <Navigate to="login" replace={true} />
               )
             }
           />
@@ -154,7 +154,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordForm />} />
           <Route
             path="*"
-            element={<Navigate to="/" replace={true} />}
+            element={<Navigate to="" replace={true} />}
           />
         </Routes>
         <Toaster />
