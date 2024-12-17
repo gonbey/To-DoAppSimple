@@ -30,8 +30,9 @@ app.add_middleware(
         "https://todo-task-app-wgmga1jp.devinapps.com"  # Production frontend
     ],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept", "Authorization", "Origin"],
+    expose_headers=["Content-Type"]
 )
 
 @app.on_event("startup")
