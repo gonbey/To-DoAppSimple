@@ -66,7 +66,11 @@ function App() {
 
   return (
     <Router>
-      <AppLayout isAuthenticated={isAuthenticated} isAdmin={isAdmin}>
+      <AppLayout
+        isAuthenticated={isAuthenticated}
+        isAdmin={isAdmin}
+        onLogout={checkAuth}  // ログアウト時にcheckAuthを呼び出す
+      >
         <Routes>
           <Route
             path="/"

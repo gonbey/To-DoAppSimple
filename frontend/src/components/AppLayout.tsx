@@ -5,13 +5,17 @@ interface AppLayoutProps {
   children: React.ReactNode;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  onLogout?: () => void;  // 追加: ログアウト時のコールバック
 }
 
-export function AppLayout({ children, isAuthenticated, isAdmin }: AppLayoutProps) {
+export function AppLayout({ children, isAuthenticated, isAdmin, onLogout }: AppLayoutProps) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    if (onLogout) {
+      onLogout();  // 親コンポーネントの認証状態を更新
+    }
     navigate('/login');
   };
 
