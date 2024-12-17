@@ -53,7 +53,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
       setSuccess('ログインに成功しました！')
       onLoginSuccess();
       console.log('Attempting navigation to todos');
-      navigate('todos', { replace: true })
+      navigate('/todos', { replace: true })
       console.log('Current location after navigation:', window.location.href);
       console.log('Hash location after navigation:', window.location.hash);
     } catch (err) {

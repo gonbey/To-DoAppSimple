@@ -72,34 +72,34 @@ function App() {
             path="/"
             element={
               isAuthenticated ? (
-                <Navigate to="todos" replace={true} />
+                <Navigate to="/todos" replace={true} />
               ) : (
-                <Navigate to="login" replace={true} />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
           <Route
-            path="login"
+            path="/login"
             element={
               isAuthenticated ? (
-                <Navigate to="todos" replace={true} />
+                <Navigate to="/todos" replace={true} />
               ) : (
                 <>
                   <nav className="flex justify-center space-x-4 mb-8">
                     <Link
-                      to="login"
+                      to="/login"
                       className="px-4 py-2 rounded bg-blue-500 text-white"
                     >
                       ログイン
                     </Link>
                     <Link
-                      to="register"
+                      to="/register"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       新規登録
                     </Link>
                     <Link
-                      to="request-password-reset"
+                      to="/request-password-reset"
                       className="px-4 py-2 rounded bg-gray-200"
                     >
                       パスワードを忘れた場合
@@ -111,50 +111,50 @@ function App() {
             }
           />
           <Route
-            path="register"
+            path="/register"
             element={
               isAuthenticated ? (
-                <Navigate to="todos" replace={true} />
+                <Navigate to="/todos" replace={true} />
               ) : (
                 <RegisterForm />
               )
             }
           />
           <Route
-            path="todos"
+            path="/todos"
             element={
               isAuthenticated ? (
                 <TodoList />
               ) : (
-                <Navigate to="login" replace={true} />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
           <Route
-            path="todo/new"
+            path="/todo/new"
             element={
               isAuthenticated ? (
                 <TodoForm />
               ) : (
-                <Navigate to="login" replace={true} />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
           <Route
-            path="admin"
+            path="/admin"
             element={
               isAuthenticated && isAdmin ? (
                 <AdminDashboard />
               ) : (
-                <Navigate to="login" replace={true} />
+                <Navigate to="/login" replace={true} />
               )
             }
           />
-          <Route path="request-password-reset" element={<RequestPasswordForm />} />
-          <Route path="reset-password" element={<ResetPasswordForm />} />
+          <Route path="/request-password-reset" element={<RequestPasswordForm />} />
+          <Route path="/reset-password" element={<ResetPasswordForm />} />
           <Route
             path="*"
-            element={<Navigate to="" replace={true} />}
+            element={<Navigate to="/" replace={true} />}
           />
         </Routes>
         <Toaster />
