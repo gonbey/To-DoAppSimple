@@ -25,6 +25,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
     try {
       console.log('Sending login request to:', `${import.meta.env.VITE_API_URL}/api/auth/login`);
+      console.log('Login attempt with email:', id);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -33,7 +34,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
           'Origin': window.location.origin
         },
         credentials: 'include',
-        body: JSON.stringify({ id, password }),
+        body: JSON.stringify({ email: id, password }),
       })
 
       console.log('Login response status:', response.status);
@@ -51,8 +52,8 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
       setSuccess('ログインに成功しました！')
       onLoginSuccess();
-      console.log('Attempting navigation to /todos');
-      navigate('/todos', { replace: true })
+      console.log('Attempting navigation to todos');
+      navigate('todos', { replace: true })
       console.log('Current location after navigation:', window.location.href);
       console.log('Hash location after navigation:', window.location.hash);
     } catch (err) {
@@ -68,7 +69,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
     setIsResetting(true)
 
     if (!id) {
-      setError('パスワードをリセットするにはIDを入力してください。')
+      setError('パスワードをリセットするにはメールアドレスを入力してください。')
       setIsResetting(false)
       return
     }
@@ -79,7 +80,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ email: id }),
       })
 
       if (!response.ok) {
@@ -105,8 +106,8 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Input
-            type="text"
-            placeholder="ユーザーID"
+            type="email"
+            placeholder="メールアドレス"
             value={id}
             onChange={(e) => setId(e.target.value)}
             required
